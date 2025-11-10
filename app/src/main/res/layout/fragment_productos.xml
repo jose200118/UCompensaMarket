@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorProductos"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:background="@android:color/white">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProductos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="12dp"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvEmptyProducts"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="No hay productos disponibles"-->
+<!--        android:textAlignment="center"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textColor="@android:color/darker_gray"/>-->
+
+    <!-- Contenedor principal: RecyclerView ocupa el espacio entre el padding superior y el footer -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="88dp">
+
+        <!-- deja espacio para el footer -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCarrito"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="12dp"
+            android:layout_marginTop="30dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:overScrollMode="ifContentScrolls"/>
+
+        <!-- Mensaje vacío centrado encima del RecyclerView -->
+        <TextView
+            android:id="@+id/tvEmptyProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Tu carrito está vacío"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"/>
+    </FrameLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Agregar producto"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/success_color"
+        app:layout_anchor="@id/recyclerProductos"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_margin="16dp" />
+
+
+    <!-- FAB para abrir carrito (bottom-start) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_open_cart"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Abrir carrito"
+        app:backgroundTint="@color/primary_color"
+        app:layout_anchor="@id/recyclerProductos"
+        app:layout_anchorGravity="bottom|start"
+        app:srcCompat="@drawable/ic_shopping_cart"
+        app:tint="@android:color/white" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
