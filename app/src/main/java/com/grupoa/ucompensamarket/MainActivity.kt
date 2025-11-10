@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
 import com.grupoa.ucompensamarket.Fragmentos.FragmentPerfil
+import com.grupoa.ucompensamarket.Fragmentos.FragmentProductos
 import com.grupoa.ucompensamarket.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private  lateinit var  binding: ActivityMainBinding
+    private  lateinit var firebaseAuth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,14 +24,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         // setContentView(R.layout.activity_main)
 
-        // Splash Aplicacion
-        // irSplash();
+        firebaseAuth = FirebaseAuth.getInstance()
+        if(firebaseAuth.currentUser == null) {
+            irOpcionesLogin()
+        }
 
         // Fragmento (view) por defecto
-        verFragmentoPerfil()
+        verFragmentoProductos()
 
         binding.bottomNV.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.item_productos -> {
+                    // Visualizar perfil
+                    verFragmentoProductos()
+                    true
+                }
                 R.id.item_perfil -> {
                     // Visualizar perfil
                     verFragmentoPerfil()
@@ -45,8 +55,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun irSplash() {
-        startActivity(Intent(applicationContext, SplashActivity::class.java))
+    private fun irOpcionesLogin() {
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+        finish()
+    }
+
+    private fun verFragmentoProductos(){
+        binding.tvTitulo.text = "Productos"
+        val fragment = FragmentProductos()
+        var fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(binding.framentoFL.id, fragment, "Fragment Productos")
+        fragmentTransaction.commit()
     }
 
     private fun verFragmentoPerfil(){

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/item_productos"
+        android:title="@string/item_productos"
+        android:icon="@drawable/ic_shopping_cart"
+        />
+    <item
         android:id="@+id/item_perfil"
         android:title="@string/item_perfil"
         android:icon="@drawable/ic_user"

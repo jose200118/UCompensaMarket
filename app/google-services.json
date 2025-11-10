@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150420597757",
+    "project_id": "ucompensar-market",
+    "storage_bucket": "ucompensar-market.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150420597757:android:ed3516af313c0072720794",
+        "android_client_info": {
+          "package_name": "com.grupoa.ucompensamarket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7HznFZafzz77H_0dZahwqvzGqe13ylY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -30,7 +30,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:text="Inicia sesión ahora"
-        android:textColor="#E7940E"
+        android:textColor="@color/primary_color"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,21 +66,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_description" />
 
-    <EditText
-        android:id="@+id/input_email_login"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="ejemplo@gmail.com"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:hintEnabled="false"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/primary_color"
+        app:boxStrokeWidthFocused="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_email_login" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_email_login">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_email_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ejemplo@gmail.com"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/label_password_login"
@@ -95,23 +105,34 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_email_login" />
+        app:layout_constraintTop_toBottomOf="@+id/email_input_layout" />
 
-    <EditText
-        android:id="@+id/input_password_login"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="************"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:hintEnabled="false"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/primary_color"
+        app:boxStrokeWidthFocused="2dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_password_login" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_password_login">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_password_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="************"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/forgot_password_link"
@@ -123,16 +144,16 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password_login" />
+        app:layout_constraintTop_toBottomOf="@+id/password_input_layout" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_login_submit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#0088FF"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/secondary_color"
         android:padding="16dp"
         android:text="Iniciar sesión"
         android:textColor="@android:color/white"
@@ -141,8 +162,7 @@
         app:layout_constraintBottom_toTopOf="@+id/register_prompt_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password_link"/>
+        />
 
     <TextView
         android:id="@+id/register_prompt_login"
@@ -163,7 +183,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="Regístrate"
-        android:textColor="#0088FF"
+        android:textColor="@color/secondary_color"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/register_prompt_login"

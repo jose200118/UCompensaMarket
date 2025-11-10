@@ -82,11 +82,9 @@
                 android:hint="Ucompensar"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:inputType="textCapWords"
-                android:text="Ucompensar"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -108,7 +106,6 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:inputType="textCapSentences"
-                android:text="¡Hola! Estoy usando UCompensa Market."
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -129,7 +126,6 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:inputType="phone"
-                android:text="300 000 0000"
                 tools:ignore="HardcodedText" />
 
             <Button
@@ -137,7 +133,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Guardar"
-                android:backgroundTint="#0088FF"
+                android:backgroundTint="@color/secondary_color"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:cornerRadius="8dp" />
+
+            <Button
+                android:id="@+id/btn_cerrarLogin"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="12dp"
+                android:text="Cerrar sesión"
+                android:backgroundTint="@color/danger_color"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 app:cornerRadius="8dp" />
