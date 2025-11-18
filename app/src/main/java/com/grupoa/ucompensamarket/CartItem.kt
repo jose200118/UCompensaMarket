@@ -1,6 +1,6 @@
 package com.grupoa.ucompensamarket
 
-// Modelo para items del carrito. Compatible con Firebase Realtime Database:
+// Modelo para items del carrito.
 // - constructor vacío
 // - propiedades mutables (var)
 class CartItem() {
@@ -10,13 +10,7 @@ class CartItem() {
     var imagenUrl: String? = ""
     var cantidad: Int = 1
 
-    constructor(
-        productId: String?,
-        nombre: String?,
-        precio: Double,
-        imagenUrl: String?,
-        cantidad: Int
-    ) : this() {
+    constructor(productId: String?, nombre: String?, precio: Double, imagenUrl: String?, cantidad: Int) : this() {
         this.productId = productId
         this.nombre = nombre
         this.precio = precio
