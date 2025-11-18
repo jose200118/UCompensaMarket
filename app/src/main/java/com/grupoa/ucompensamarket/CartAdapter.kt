@@ -11,11 +11,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CartAdapter(
-    private val context: Context,
-    private val items: List<CartItem>,
-    private val listener: CartListener
-) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter(private val context: Context, private val items: List<CartItem>, private val listener: CartListener)
+    : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     interface CartListener {
         fun onChangeQuantity(item: CartItem, newQty: Int)

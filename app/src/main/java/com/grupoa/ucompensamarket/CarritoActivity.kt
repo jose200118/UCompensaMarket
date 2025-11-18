@@ -1,7 +1,5 @@
 package com.grupoa.ucompensamarket
 
-import android.content.Intent
-import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.grupoa.ucompensamarket.Fragmentos.FragmentProductos
 
 class CarritoActivity : AppCompatActivity() {
 

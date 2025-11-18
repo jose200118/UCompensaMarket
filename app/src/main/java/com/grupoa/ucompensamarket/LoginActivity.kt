@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.grupoa.ucompensamarket.Fragmentos.FragmentPerfil
+import com.google.firebase.database.FirebaseDatabase
 import com.grupoa.ucompensamarket.databinding.ActivityLoginBinding
-import com.grupoa.ucompensamarket.databinding.ActivityMainBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -74,9 +73,16 @@ class LoginActivity : AppCompatActivity() {
         progressDialog.setMessage("Ingresando")
         progressDialog.show()
 
-
         firebaseAuth.signInWithEmailAndPassword(correo, password)
             .addOnSuccessListener {
+
+                val uid = firebaseAuth.currentUser!!.uid
+                val db = FirebaseDatabase.getInstance().getReference("Usuarios").child(uid)
+                db.child("rol").get().addOnSuccessListener { snapshot -> val rolDelUsuario = snapshot.value?.toString() ?: ""
+                    val prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE)
+                    prefs.edit().putString("ROL_USUARIO", rolDelUsuario).apply()
+                }
+
                 progressDialog.dismiss()
                 startActivity(Intent(this, MainActivity::class.java))
                 finishAffinity()

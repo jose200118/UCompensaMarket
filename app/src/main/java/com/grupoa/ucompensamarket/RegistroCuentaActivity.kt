@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -37,13 +38,11 @@ class RegistroCuentaActivity : AppCompatActivity() {
             validarInformacion()
         }
 
-
         // Botón de view inicio de sesion
         binding.btnLoginLinkRegistro.setOnClickListener {
             startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
         }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -56,12 +55,14 @@ class RegistroCuentaActivity : AppCompatActivity() {
     var correo = ""
     var password = ""
     var politica = false
+    var rolUsuario = ""
 
     private fun validarInformacion() {
         nombre = "";
         correo = binding.inputEmail.text.toString().trim()
         password = binding.inputPassword.text.toString().trim()
         politica = binding.checkboxPrivacy.isChecked
+        rolUsuario = binding.spinnerRol.selectedItem.toString().trim()
 
        if(correo.isEmpty()) {
             binding.inputEmail.error = "El campo es requerido"
@@ -110,7 +111,7 @@ class RegistroCuentaActivity : AppCompatActivity() {
         val correoU = firebaseAuth.currentUser!!.email
         val tiempoU = Constantes.obteneTiempoD()
         val politicaU = politica
-
+        val rolUsuario = rolUsuario
         val datosUsuario = HashMap<String, Any>()
 
         datosUsuario["uid"] = "$uidU"
@@ -121,12 +122,15 @@ class RegistroCuentaActivity : AppCompatActivity() {
         datosUsuario["politica"] = "$politicaU"
         datosUsuario["estado"] = "Online"
         datosUsuario["proveedor"] = "Correo"
+        datosUsuario["rol"] = "${rolUsuario}"
         datosUsuario["tiempoR"] = "$tiempoU"
 
         val reference = FirebaseDatabase.getInstance().getReference("Usuarios")
         reference.child(uidU!!)
             .setValue(datosUsuario)
             .addOnSuccessListener {
+                val prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE)
+                prefs.edit().putString("ROL_USUARIO", rolUsuario).apply()
                 progressDialog.dismiss()
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finishAffinity()

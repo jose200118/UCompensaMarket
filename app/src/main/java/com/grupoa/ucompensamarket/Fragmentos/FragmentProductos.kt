@@ -20,6 +20,7 @@ import com.grupoa.ucompensamarket.CartItem
 import com.grupoa.ucompensamarket.Productos
 import com.grupoa.ucompensamarket.databinding.FragmentProductosBinding
 import com.grupoa.ucompensamarket.ProductoFormActivity
+import com.grupoa.ucompensamarket.SessionManager
 
 
 class FragmentProductos : Fragment() {
@@ -42,6 +43,16 @@ class FragmentProductos : Fragment() {
         productoLista = ArrayList()
         listarProductos()
 
+        // Permiso que no tiene vendedores
+        if (!SessionManager.isVendedor(requireContext())) {
+            binding.fabAddProduct.visibility = View.GONE
+        }
+
+        // Permiso que no tiene clientes
+        if (!SessionManager.isCliente(requireContext())) {
+            binding.fabOpenCart.visibility = View.GONE
+        }
+
         // FAB para crear producto
         binding.fabAddProduct.setOnClickListener {
             startActivity(Intent(requireContext(), ProductoFormActivity::class.java))
@@ -51,7 +62,6 @@ class FragmentProductos : Fragment() {
         binding.fabOpenCart.setOnClickListener {
             startActivity(Intent(requireContext(), CarritoActivity::class.java))
         }
-
 
         // dentro de onCreateView o en init del fragment
         binding.fabAddProduct.setOnClickListener {
@@ -78,10 +88,6 @@ class FragmentProductos : Fragment() {
                 }
 
                 productosAdaptador = AdaptadorProductos(mContext, productoLista, object : AdaptadorProductos.OnItemClickListener {
-//                    override fun onAgregar(producto: Productos, position: Int) {
-//                        Toast.makeText(mContext, "Agregado al carrito: ${producto.nombre}", Toast.LENGTH_SHORT).show()
-//                        // TODO: implementar el guardado real del carrito según tus requerimientos
-//                    }
 
                     override fun onAgregar(producto: Productos, position: Int) {
                         // Guardar en Firebase -> Carrito/{userUid}/{productId}
@@ -137,6 +143,8 @@ class FragmentProductos : Fragment() {
                         intent.putExtra(ProductoFormActivity.EXTRA_DESCRIPCION, producto.descripcion)
                         intent.putExtra(ProductoFormActivity.EXTRA_PRECIO, producto.precio)
                         intent.putExtra(ProductoFormActivity.EXTRA_IMAGENURL, producto.imagenUrl)
+                        intent.putExtra(ProductoFormActivity.EXTRA_LAT, producto.lat?.toString())
+                        intent.putExtra(ProductoFormActivity.EXTRA_LNG, producto.lng?.toString())
                         startActivity(intent)
                     }
 

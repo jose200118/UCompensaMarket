@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // setContentView(R.layout.activity_main)
 
         firebaseAuth = FirebaseAuth.getInstance()
         if(firebaseAuth.currentUser == null) {

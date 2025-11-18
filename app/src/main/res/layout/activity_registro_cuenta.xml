@@ -134,6 +134,41 @@
             android:textColorHint="@android:color/darker_gray" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+    <!-- CAMPO DE ROL -->
+    <TextView
+        android:id="@+id/label_rol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Seleccione su rol"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_input_layout" />
+
+    <Spinner
+        android:id="@+id/spinner_rol"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_spinner"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:spinnerMode="dropdown"
+        android:entries="@array/roles_array"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_rol" />
+
+    <!-- CAMPO DE ROL -->
     <CheckBox
         android:id="@+id/checkbox_privacy"
         android:layout_width="0dp"
@@ -147,7 +182,7 @@
         app:buttonTint="@color/primary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_input_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_rol" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_register_submit"
@@ -165,7 +200,7 @@
         app:layout_constraintBottom_toTopOf="@+id/login_prompt_registro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkbox_privacy"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_rol"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -194,5 +229,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/login_prompt_registro"
         app:layout_constraintTop_toTopOf="@+id/login_prompt_registro" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

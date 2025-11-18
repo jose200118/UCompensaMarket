@@ -1,70 +1,3 @@
-//package com.grupoa.ucompensamarket
-//
-//import android.content.Context
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.ImageView
-//import android.widget.TextView
-//import android.widget.Toast
-//import androidx.recyclerview.widget.RecyclerView
-//import com.bumptech.glide.Glide
-//import org.w3c.dom.Text
-//import kotlin.Double
-//
-//class AdaptadorProductos( context: Context, listaProductos: List<Productos>)
-//    : RecyclerView.Adapter<AdaptadorProductos.ViewHolder?>() {
-//
-//        private val context : Context
-//        private val listaProductos : List<Productos>
-//
-//        init {
-//            this.context = context
-//            this.listaProductos = listaProductos
-//        }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val view : View = LayoutInflater.from(context).inflate(R.layout.item_producto, parent, false)
-//        return ViewHolder(view)
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return listaProductos.size
-//    }
-//
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val productos : Productos = listaProductos[position]
-//        holder.nombre.text = productos.nombre
-//        holder.precio.text = "$${productos.precio}"
-//
-//        // Cargar la imagen con Glide
-//        Glide.with(holder.itemView.context)
-//            .load(productos.imagenUrl)
-//            .placeholder(R.drawable.ic_shopping_cart)
-//            .error(R.drawable.ic_shopping_cart)
-//            .into(holder.imagenUrl)
-//    }
-//
-//
-//
-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-////        var uid: TextView
-//        var imagenUrl: ImageView
-//        var nombre: TextView
-////        var descripcion: TextView
-//        var precio: TextView
-//
-//        init {
-////            uid = itemView.findViewById(R.id.item_uid)
-//            imagenUrl = itemView.findViewById(R.id.item_imgProducto)
-//            nombre = itemView.findViewById(R.id.item_nombreProducto)
-////            descripcion = itemView.findViewById(R.id.item_descripcion)
-//            precio = itemView.findViewById(R.id.item_precioProducto)
-//        }
-//    }
-//}
-
-
 package com.grupoa.ucompensamarket
 
 import android.content.Context
@@ -78,11 +11,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class AdaptadorProductos(
-    private val context: Context,
-    private val listaProductos: List<Productos>,
-    private val listener: OnItemClickListener? = null
-) : RecyclerView.Adapter<AdaptadorProductos.ViewHolder>() {
+class AdaptadorProductos(private val context: Context, private val listaProductos: List<Productos>,
+    private val listener: OnItemClickListener? = null) : RecyclerView.Adapter<AdaptadorProductos.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onAgregar(producto: Productos, position: Int)
@@ -110,9 +40,25 @@ class AdaptadorProductos(
             .error(R.drawable.ic_shopping_cart)
             .into(holder.imagenProducto)
 
+        // Permiso que no tiene el cliente
+        if (!SessionManager.isVendedor(context)) {
+            holder.btnEditar.visibility = View.GONE
+            holder.btnEliminar.visibility = View.GONE
+        }
+
+        // Permisos que no tiene el vendedor
+        if (!SessionManager.isCliente(context)) {
+            holder.btnAgregar.visibility = View.GONE
+            holder.btnVerDetalle.visibility = View.GONE
+        }
+
         holder.btnAgregar.setOnClickListener {
             listener?.onAgregar(producto, position)
                 ?: Toast.makeText(context, "${producto.nombre} agregado (callback no implementado)", Toast.LENGTH_SHORT).show()
+        }
+        holder.btnVerDetalle.setOnClickListener {
+            listener?.onEditar(producto, position)
+                ?: Toast.makeText(context, "Detalle ${producto.nombre} (callback no implementado)", Toast.LENGTH_SHORT).show()
         }
         holder.btnEditar.setOnClickListener {
             listener?.onEditar(producto, position)
@@ -129,6 +75,7 @@ class AdaptadorProductos(
         val nombre: TextView = itemView.findViewById(R.id.item_nombreProducto)
         val precio: TextView = itemView.findViewById(R.id.item_precioProducto)
         val btnAgregar: ImageButton = itemView.findViewById(R.id.btnAgregarCarrito)
+        val btnVerDetalle: ImageButton = itemView.findViewById(R.id.btnVerDetalle)
         val btnEditar: ImageButton = itemView.findViewById(R.id.btnEditar)
         val btnEliminar: ImageButton = itemView.findViewById(R.id.btnEliminar)
     }

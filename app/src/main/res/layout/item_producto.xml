@@ -56,6 +56,17 @@
             android:contentDescription="Agregar al carrito"
             android:layout_marginEnd="4dp"/>
 
+        <!-- Ver detalle del producto-->
+        <ImageButton
+            android:id="@+id/btnVerDetalle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_contract"
+            app:tint="@color/info_color"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Ver detalle del producto"
+            android:layout_marginEnd="4dp"/>
+
         <ImageButton
             android:id="@+id/btnEditar"
             android:layout_width="40dp"
