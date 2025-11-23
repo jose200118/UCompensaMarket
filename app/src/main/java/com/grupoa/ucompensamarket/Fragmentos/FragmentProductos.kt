@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,12 +23,14 @@ import com.grupoa.ucompensamarket.databinding.FragmentProductosBinding
 import com.grupoa.ucompensamarket.ProductoFormActivity
 import com.grupoa.ucompensamarket.SessionManager
 
-
 class FragmentProductos : Fragment() {
     private lateinit var binding: FragmentProductosBinding
     private lateinit var mContext: Context
     private var productosAdaptador: AdaptadorProductos? = null
     private var productoLista: ArrayList<Productos> = ArrayList()
+
+    private lateinit var auth: FirebaseAuth
+    private var authListener: FirebaseAuth.AuthStateListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,19 +46,16 @@ class FragmentProductos : Fragment() {
         productoLista = ArrayList()
         listarProductos()
 
-        // Permiso que no tiene vendedores
-        if (!SessionManager.isVendedor(requireContext())) {
-            binding.fabAddProduct.visibility = View.GONE
-        }
+        auth = FirebaseAuth.getInstance()
 
-        // Permiso que no tiene clientes
-        if (!SessionManager.isCliente(requireContext())) {
-            binding.fabOpenCart.visibility = View.GONE
-        }
+        // Inicialmente ajustar visibilidad según la sesión actual
+        updateFabVisibility()
 
         // FAB para crear producto
         binding.fabAddProduct.setOnClickListener {
-            startActivity(Intent(requireContext(), ProductoFormActivity::class.java))
+            val intent = Intent(requireContext(), ProductoFormActivity::class.java)
+            // SIN extras => modo CREAR
+            startActivity(intent)
         }
 
         // FAB para abrir carrito — esto abre CarritoActivity donde verás los items
@@ -63,14 +63,43 @@ class FragmentProductos : Fragment() {
             startActivity(Intent(requireContext(), CarritoActivity::class.java))
         }
 
-        // dentro de onCreateView o en init del fragment
-        binding.fabAddProduct.setOnClickListener {
-            val intent = Intent(requireContext(), ProductoFormActivity::class.java)
-            // SIN extras => modo CREAR
-            startActivity(intent)
+        // Auth listener: cuando cambia el usuario (login/logout), actualizamos la UI
+        authListener = FirebaseAuth.AuthStateListener {
+            // SessionManager puede basarse en el usuario o en prefs; actualizamos visibilidades
+            updateFabVisibility()
+            // Opcional: si el contenido del adapter depende del usuario (ej. favoritos), refrescar
+            productosAdaptador?.notifyDataSetChanged()
         }
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        authListener?.let { auth.addAuthStateListener(it) }
+        // Asegurarnos de que cuando el fragment entra en foreground, la visibilidad está correcta
+        updateFabVisibility()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateFabVisibility()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        authListener?.let { auth.removeAuthStateListener(it) }
+    }
+
+    private fun updateFabVisibility() {
+        // Si el fragmento ya no está asociado o la vista no existe, salir
+        if (!isAdded || view == null) return
+
+        // Permiso que no tiene vendedores: ocultar si NO es vendedor
+        binding.fabAddProduct.visibility = if (SessionManager.isVendedor(requireContext())) View.VISIBLE else View.GONE
+
+        // Permiso que no tiene clientes: ocultar si NO es cliente
+        binding.fabOpenCart.visibility = if (SessionManager.isCliente(requireContext())) View.VISIBLE else View.GONE
     }
 
     private fun listarProductos() {
@@ -174,10 +203,6 @@ class FragmentProductos : Fragment() {
                     }
                 })
 
-                binding.recyclerProductos.adapter = productosAdaptador
-                productosAdaptador?.notifyDataSetChanged()
-
-                // después de actualizar productoLista y asignar adapter
                 binding.recyclerProductos.adapter = productosAdaptador
                 productosAdaptador?.notifyDataSetChanged()
 
